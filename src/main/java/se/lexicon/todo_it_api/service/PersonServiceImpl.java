@@ -38,8 +38,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public boolean delete(Integer personId) {
-        Person person = personDAO.findById(personId).get();
-        personDAO.delete(person);
+        personDAO.deleteById(personId);
         return !personDAO.existsById(personId);
     }
 
@@ -119,16 +118,13 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @Transactional
-    public PersonDto update(Integer personId, PersonFormDto formDto) throws IllegalAccessException {
+    public PersonDto update(Integer personId, PersonFormDto formDto){
         Optional<Person> original = personDAO.findById(personId);
 
         if(original.isPresent()){
             original.get().setFirstName(formDto.getFirstName());
             original.get().setLastName(formDto.getLastName());
             original.get().setBirthDate(formDto.getBirthDate());
-        }
-
-        if(original.isPresent()){
             return conversionService.toPersonDto(original.get());
         } else {
              throw new AppResourceNotFoundException("Not found");
