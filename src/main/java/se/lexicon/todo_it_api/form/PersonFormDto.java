@@ -3,16 +3,16 @@ package se.lexicon.todo_it_api.form;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class PersonFormDTO {
+public class PersonFormDto {
 
     private String firstName;
     private String lastName;
     private LocalDate birthDate;
 
-    public PersonFormDTO() {
+    public PersonFormDto() {
     }
 
-    public PersonFormDTO(String firstName, String lastName, LocalDate birthDate) {
+    public PersonFormDto(String firstName, String lastName, LocalDate birthDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -47,7 +47,7 @@ public class PersonFormDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PersonFormDTO that = (PersonFormDTO) o;
+        PersonFormDto that = (PersonFormDto) o;
         return Objects.equals(getFirstName(), that.getFirstName()) && Objects.equals(getLastName(), that.getLastName()) && Objects.equals(getBirthDate(), that.getBirthDate());
     }
 
@@ -58,7 +58,7 @@ public class PersonFormDTO {
 
     @Override
     public String toString() {
-        return "PersonFormDTO{" +
+        return "PersonFormDto{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", birthDate=" + birthDate +

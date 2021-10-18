@@ -3,17 +3,17 @@ package se.lexicon.todo_it_api.form;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class TodoItemFormDTO {
+public class TodoItemFormDto {
 
     private String title;
     private String description;
     private LocalDate deadLine;
     private boolean done;
 
-    public TodoItemFormDTO() {
+    public TodoItemFormDto() {
     }
 
-    public TodoItemFormDTO(String title, String description, LocalDate deadLine, boolean done) {
+    public TodoItemFormDto(String title, String description, LocalDate deadLine, boolean done) {
         this.title = title;
         this.description = description;
         this.deadLine = deadLine;
@@ -56,7 +56,7 @@ public class TodoItemFormDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TodoItemFormDTO that = (TodoItemFormDTO) o;
+        TodoItemFormDto that = (TodoItemFormDto) o;
         return isDone() == that.isDone() && Objects.equals(getTitle(), that.getTitle()) && Objects.equals(getDescription(), that.getDescription()) && Objects.equals(getDeadLine(), that.getDeadLine());
     }
 
@@ -67,7 +67,7 @@ public class TodoItemFormDTO {
 
     @Override
     public String toString() {
-        return "TodoItemFormDTO{" +
+        return "TodoItemFormDto{" +
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", deadLine=" + deadLine +

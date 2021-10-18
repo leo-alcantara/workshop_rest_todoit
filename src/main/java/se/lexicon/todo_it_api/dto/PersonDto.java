@@ -20,6 +20,6 @@ public class PersonDto {
     private String firstName;
     private String lastName;
     private LocalDate birthDate;
-    private List<TodoItem> todoItems;
+    private List<TodoItemDtoSmall> todoItems;
 
 }

@@ -17,7 +17,7 @@ public class TodoItemDto {
     private String description;
     private LocalDate deadLine;
     private boolean done;
-    private Person assignee;
+    private PersonDtoSmall assignee;
 
 
 }
