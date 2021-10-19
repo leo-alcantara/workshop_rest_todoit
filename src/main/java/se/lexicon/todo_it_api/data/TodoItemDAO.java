@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface TodoItemDAO extends JpaRepository<TodoItem, Integer> {
+
     @Query("SELECT t FROM TodoItem t WHERE UPPER(t.title) LIKE UPPER(CONCAT('%',:string,'%'))")
     List<TodoItem> findByTitleContains(@Param("string") String string);
     @Query("SELECT t FROM TodoItem t WHERE t.assignee.personId = :personId")

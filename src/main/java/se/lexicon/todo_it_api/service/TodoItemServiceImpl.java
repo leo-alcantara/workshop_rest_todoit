@@ -7,7 +7,6 @@ import se.lexicon.todo_it_api.data.TodoItemDAO;
 import se.lexicon.todo_it_api.dto.TodoItemDto;
 import se.lexicon.todo_it_api.exception.AppResourceNotFoundException;
 import se.lexicon.todo_it_api.form.TodoItemFormDto;
-import se.lexicon.todo_it_api.model.entity.Person;
 import se.lexicon.todo_it_api.model.entity.TodoItem;
 
 import java.time.LocalDate;
@@ -41,115 +40,84 @@ public class TodoItemServiceImpl implements TodoItemService {
 
     @Override
     public List<TodoItemDto> findAll() {
-        List<TodoItem> todoList = new ArrayList<>();
+        List<TodoItem> todoList = todoItemDAO.findAll();
         List<TodoItemDto> todoItemDtoList = new ArrayList<>();
-        todoList = todoItemDAO.findAll();
-        for (TodoItem todoItem:todoList) {
-            TodoItemDto todoItemDto = conversionService.toTodoItemDto(todoItem);
-            todoItemDtoList.add(todoItemDto);
-        }
+        todoList.forEach((todo) -> todoItemDtoList.add(conversionService.toTodoItemDto(todo)));
+        //       for (TodoItem todoItem:todoList) {
+        //         TodoItemDto todoItemDto = conversionService.toTodoItemDto(todoItem);
+        //       todoItemDtoList.add(todoItemDto);
+        // }
         return todoItemDtoList;
     }
 
     @Override
     public List<TodoItemDto> findAllByPersonId(Integer personId) {
-        List<TodoItem> todoList = new ArrayList<>();
+        List<TodoItem> todoList = todoItemDAO.findByPersonId(personId);
         List<TodoItemDto> todoItemDtoList = new ArrayList<>();
-        todoList = todoItemDAO.findByPersonId(personId);
-        for (TodoItem todoItem: todoList){
-            TodoItemDto todoItemDto = conversionService.toTodoItemDto(todoItem);
-            todoItemDtoList.add(todoItemDto);
-        }
+        todoList.forEach((todo) -> todoItemDtoList.add(conversionService.toTodoItemDto(todo)));
         return todoItemDtoList;
     }
 
     @Override
     public List<TodoItemDto> findAllUnassigned() {
-        List<TodoItem> todoList = new ArrayList<>();
+        List<TodoItem> todoList = todoItemDAO.findUnassignedTodoItems();
         List<TodoItemDto> todoItemDtoList = new ArrayList<>();
-        todoList = todoItemDAO.findUnassignedTodoItems();
-        for (TodoItem todoItem: todoList){
-            TodoItemDto todoItemDto = conversionService.toTodoItemDto(todoItem);
-            todoItemDtoList.add(todoItemDto);
-        }
+        todoList.forEach((todo) -> todoItemDtoList.add(conversionService.toTodoItemDto(todo)));
         return todoItemDtoList;
     }
 
     @Override
     public List<TodoItemDto> findAllUnfinishedAndOverdue() {
-        List<TodoItem> todoList = new ArrayList<>();
+        List<TodoItem> todoList = todoItemDAO.findAllUnfinishedAndOverdue();
         List<TodoItemDto> todoItemDtoList = new ArrayList<>();
-        todoList = todoItemDAO.findAllUnfinishedAndOverdue();
-        for (TodoItem todoItem: todoList){
-            TodoItemDto todoItemDto = conversionService.toTodoItemDto(todoItem);
-            todoItemDtoList.add(todoItemDto);
-        }
+        todoList.forEach((todo) -> todoItemDtoList.add(conversionService.toTodoItemDto(todo)));
         return todoItemDtoList;
     }
 
     @Override
     public List<TodoItemDto> findByDeadlineAfter(LocalDate date) {
-        List<TodoItem> todoList = new ArrayList<>();
+        List<TodoItem> todoList = todoItemDAO.findByDeadlineAfter(date);
         List<TodoItemDto> todoItemDtoList = new ArrayList<>();
-        todoList = todoItemDAO.findByDeadlineAfter(date);
-        for (TodoItem todoItem: todoList){
-            TodoItemDto todoItemDto = conversionService.toTodoItemDto(todoItem);
-            todoItemDtoList.add(todoItemDto);
-        }
+        todoList.forEach((todo) -> todoItemDtoList.add(conversionService.toTodoItemDto(todo)));
         return todoItemDtoList;
     }
 
     @Override
     public List<TodoItemDto> findByDeadlineBefore(LocalDate date) {
-        List<TodoItem> todoList = new ArrayList<>();
+        List<TodoItem> todoList = todoItemDAO.findByDeadLineBefore(date);
         List<TodoItemDto> todoItemDtoList = new ArrayList<>();
-        todoList = todoItemDAO.findByDeadLineBefore(date);
-        for (TodoItem todoItem: todoList){
-            TodoItemDto todoItemDto = conversionService.toTodoItemDto(todoItem);
-            todoItemDtoList.add(todoItemDto);
-        }
+        todoList.forEach((todo) -> todoItemDtoList.add(conversionService.toTodoItemDto(todo)));
         return todoItemDtoList;
     }
 
     @Override
     public List<TodoItemDto> findByDeadlineBetween(LocalDate start, LocalDate end) {
-        List<TodoItem> todoList = new ArrayList<>();
+        List<TodoItem> todoList = todoItemDAO.findByDeadlineBetween(start, end);
         List<TodoItemDto> todoItemDtoList = new ArrayList<>();
-        todoList = todoItemDAO.findByDeadlineBetween(start, end);
-        for (TodoItem todoItem: todoList){
-            TodoItemDto todoItemDto = conversionService.toTodoItemDto(todoItem);
-            todoItemDtoList.add(todoItemDto);
-        }
+        todoList.forEach((todo) -> todoItemDtoList.add(conversionService.toTodoItemDto(todo)));
         return todoItemDtoList;
     }
 
     @Override
     public List<TodoItemDto> findByDoneStatus(boolean done) {
-        List<TodoItem> todoList = new ArrayList<>();
+        List<TodoItem> todoList = todoItemDAO.findByDoneStatus(done);
         List<TodoItemDto> todoItemDtoList = new ArrayList<>();
-        todoList = todoItemDAO.findByDoneStatus(done);
-        for (TodoItem todoItem: todoList){
-            TodoItemDto todoItemDto = conversionService.toTodoItemDto(todoItem);
-            todoItemDtoList.add(todoItemDto);
-        }
+        todoList.forEach((todo) -> todoItemDtoList.add(conversionService.toTodoItemDto(todo)));
         return todoItemDtoList;
     }
 
     @Override
     public TodoItemDto findById(Integer todoId) {
         Optional<TodoItem> foundTodo = todoItemDAO.findById(todoId);
-        return conversionService.toTodoItemDto(foundTodo.get());
+        return conversionService.toTodoItemDto(foundTodo.orElseThrow(() ->
+                new AppResourceNotFoundException("Can not find todo item with the ID.")));
     }
 
     @Override
     public List<TodoItemDto> findByTitle(String title) {
-        List<TodoItem> todoList = new ArrayList<>();
+        List<TodoItem> todoList = todoItemDAO.findByTitleContains(title);
         List<TodoItemDto> todoItemDtoList = new ArrayList<>();
-        todoList = todoItemDAO.findByTitleContains(title);
-        for (TodoItem todoItem: todoList){
-            TodoItemDto todoItemDto = conversionService.toTodoItemDto(todoItem);
-            todoItemDtoList.add(todoItemDto);
-        }
+        todoList.forEach((todo) -> todoItemDtoList.add(conversionService.toTodoItemDto(todo)));
         return todoItemDtoList;
     }
 

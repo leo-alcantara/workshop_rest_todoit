@@ -32,7 +32,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public PersonDto create(PersonFormDto form) {
-       Person saved = personDAO.save(conversionService.toPerson(form));
+        Person saved = personDAO.save(conversionService.toPerson(form));
         return conversionService.toPersonDto(saved);
     }
 
@@ -44,28 +44,23 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public List<PersonDto> findAll() {
-        List<Person> personList = new ArrayList<>();
+        List<Person> personList = personDAO.findAll();
         List<PersonDto> personDtoList = new ArrayList<>();
-        personList = personDAO.findAll();
-        for (Person person:personList) {
-            PersonDto personDto = conversionService.toPersonDto(person);
-            personDtoList.add(personDto);
-        }
+        personList.forEach((p) -> personDtoList.add(conversionService.toPersonDto(p)));
         return personDtoList;
     }
 
     @Override
     public PersonDto findById(Integer integer) {
         Optional<Person> foundPerson = personDAO.findById(integer);
-        return conversionService.toPersonDto(foundPerson.get());
+        return conversionService.toPersonDto(foundPerson.orElseThrow(() -> new AppResourceNotFoundException("Could not find")));
     }
 
     @Override
     public List<PersonDto> findIdlePeople() {
-        List<Person> personList = new ArrayList<>();
+        List<Person> personList = personDAO.findIdlePeople();
         List<PersonDto> personDtoList = new ArrayList<>();
-        personList = personDAO.findIdlePeople();
-        for (Person person:personList) {
+        for (Person person : personList) {
             PersonDto personDto = conversionService.toPersonDto(person);
             personDtoList.add(personDto);
         }
@@ -85,12 +80,12 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public PersonDto addTodoItem(Integer personId, Integer todoItemId) {
-       Optional<Person> person = personDAO.findById(personId);
-       Optional<TodoItem> todoItem = todoItemDAO.findById(todoItemId);
+        Optional<Person> person = personDAO.findById(personId);
+        Optional<TodoItem> todoItem = todoItemDAO.findById(todoItemId);
 
-       if(todoItem.isPresent() && person.isPresent()){
-           person.get().addTodoItem(todoItem.get());
-       }
+        if (todoItem.isPresent() && person.isPresent()) {
+            person.get().addTodoItem(todoItem.get());
+        }
         return conversionService.toPersonDto(person.get());
     }
 
@@ -110,7 +105,7 @@ public class PersonServiceImpl implements PersonService {
         Optional<Person> person = personDAO.findById(personId);
         Optional<TodoItem> todoItem = todoItemDAO.findById(todoItemId);
 
-        if(todoItem.isPresent() && person.isPresent()){
+        if (todoItem.isPresent() && person.isPresent()) {
             person.get().removeTodoItem(todoItem.get());
         }
         return conversionService.toPersonDto(person.get());
@@ -118,16 +113,16 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @Transactional
-    public PersonDto update(Integer personId, PersonFormDto formDto){
+    public PersonDto update(Integer personId, PersonFormDto formDto) {
         Optional<Person> original = personDAO.findById(personId);
 
-        if(original.isPresent()){
+        if (original.isPresent()) {
             original.get().setFirstName(formDto.getFirstName());
             original.get().setLastName(formDto.getLastName());
             original.get().setBirthDate(formDto.getBirthDate());
             return conversionService.toPersonDto(original.get());
         } else {
-             throw new AppResourceNotFoundException("Not found");
+            throw new AppResourceNotFoundException("Not found");
         }
     }
 
