@@ -12,7 +12,7 @@ public interface PersonController {
     ResponseEntity<PersonDto> assignTodoItem(Integer personId, Integer todoId);
     ResponseEntity<PersonDto> create(PersonFormDto form);
     ResponseEntity<String> deletePerson(Integer personId);
-    ResponseEntity<?> find(String string);
+    ResponseEntity<?> find(String search);
     ResponseEntity<Collection<PersonDto>> findAll();
     ResponseEntity<PersonDto> findById(Integer personId);
     ResponseEntity<Collection<PersonDto>> findIdlePeople();

@@ -27,18 +27,21 @@ public class TodoItemServiceImpl implements TodoItemService {
     }
 
     @Override
+    @Transactional
     public TodoItemDto create(TodoItemFormDto form) {
         TodoItem saved = todoItemDAO.save(conversionService.toTodoItem(form));
         return conversionService.toTodoItemDto(saved);
     }
 
     @Override
+    @Transactional
     public boolean delete(Integer todoId) {
         todoItemDAO.deleteById(todoId);
         return !todoItemDAO.existsById(todoId);
     }
 
     @Override
+    @Transactional
     public List<TodoItemDto> findAll() {
         List<TodoItem> todoList = todoItemDAO.findAll();
         List<TodoItemDto> todoItemDtoList = new ArrayList<>();
@@ -51,6 +54,7 @@ public class TodoItemServiceImpl implements TodoItemService {
     }
 
     @Override
+    @Transactional
     public List<TodoItemDto> findAllByPersonId(Integer personId) {
         List<TodoItem> todoList = todoItemDAO.findByPersonId(personId);
         List<TodoItemDto> todoItemDtoList = new ArrayList<>();
@@ -59,6 +63,7 @@ public class TodoItemServiceImpl implements TodoItemService {
     }
 
     @Override
+    @Transactional
     public List<TodoItemDto> findAllUnassigned() {
         List<TodoItem> todoList = todoItemDAO.findUnassignedTodoItems();
         List<TodoItemDto> todoItemDtoList = new ArrayList<>();
@@ -67,6 +72,7 @@ public class TodoItemServiceImpl implements TodoItemService {
     }
 
     @Override
+    @Transactional
     public List<TodoItemDto> findAllUnfinishedAndOverdue() {
         List<TodoItem> todoList = todoItemDAO.findAllUnfinishedAndOverdue();
         List<TodoItemDto> todoItemDtoList = new ArrayList<>();
@@ -75,6 +81,7 @@ public class TodoItemServiceImpl implements TodoItemService {
     }
 
     @Override
+    @Transactional
     public List<TodoItemDto> findByDeadlineAfter(LocalDate date) {
         List<TodoItem> todoList = todoItemDAO.findByDeadlineAfter(date);
         List<TodoItemDto> todoItemDtoList = new ArrayList<>();
@@ -83,6 +90,7 @@ public class TodoItemServiceImpl implements TodoItemService {
     }
 
     @Override
+    @Transactional
     public List<TodoItemDto> findByDeadlineBefore(LocalDate date) {
         List<TodoItem> todoList = todoItemDAO.findByDeadLineBefore(date);
         List<TodoItemDto> todoItemDtoList = new ArrayList<>();
@@ -91,6 +99,7 @@ public class TodoItemServiceImpl implements TodoItemService {
     }
 
     @Override
+    @Transactional
     public List<TodoItemDto> findByDeadlineBetween(LocalDate start, LocalDate end) {
         List<TodoItem> todoList = todoItemDAO.findByDeadlineBetween(start, end);
         List<TodoItemDto> todoItemDtoList = new ArrayList<>();
@@ -99,6 +108,7 @@ public class TodoItemServiceImpl implements TodoItemService {
     }
 
     @Override
+    @Transactional
     public List<TodoItemDto> findByDoneStatus(boolean done) {
         List<TodoItem> todoList = todoItemDAO.findByDoneStatus(done);
         List<TodoItemDto> todoItemDtoList = new ArrayList<>();
@@ -107,6 +117,7 @@ public class TodoItemServiceImpl implements TodoItemService {
     }
 
     @Override
+    @Transactional
     public TodoItemDto findById(Integer todoId) {
         Optional<TodoItem> foundTodo = todoItemDAO.findById(todoId);
         return conversionService.toTodoItemDto(foundTodo.orElseThrow(() ->
@@ -114,6 +125,7 @@ public class TodoItemServiceImpl implements TodoItemService {
     }
 
     @Override
+    @Transactional
     public List<TodoItemDto> findByTitle(String title) {
         List<TodoItem> todoList = todoItemDAO.findByTitleContains(title);
         List<TodoItemDto> todoItemDtoList = new ArrayList<>();

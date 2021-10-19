@@ -25,56 +25,70 @@ public class PersonControllerImpl implements PersonController {
     }
 
     @Override
-    public ResponseEntity<PersonDto> assignTodoItem(Integer personId, Integer todoId) {
-        return null;
+    @GetMapping("/todo/api/v1/people/{id}/add")
+    public ResponseEntity<PersonDto> assignTodoItem(@PathVariable("id") Integer personId, @RequestParam("todoId") Integer todoId) {
+        return ResponseEntity.ok(personService.addTodoItem(personId, todoId));
     }
 
     @Override
-    @PostMapping("/person/api/v1/")
+    @PostMapping("/todo/api/v1/people")
     public ResponseEntity<PersonDto> create(@RequestBody PersonFormDto form) {
-        PersonDto saved = personService.create(form);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+        return ResponseEntity.status(HttpStatus.CREATED).body(personService.create(form));
     }
 
     @Override
-    @DeleteMapping("/todo/api/v1/{id}")
+    @DeleteMapping("/todo/api/v1/people/{id}")
     public ResponseEntity<String> deletePerson(@PathVariable("id") Integer personId) {
         boolean deleted = personService.delete(personId);
-        return ResponseEntity.ok(deleted);
+        return ResponseEntity.ok(deleted ? "Person was deleted" : "Person not deleted");
     }
 
     @Override
-    public ResponseEntity<?> find(String string) {
-        return null;
+    @GetMapping("/todo/api/v1/people")
+    public ResponseEntity<?> find(@RequestParam(value = "search", defaultValue = "all") String search) {
+
+        switch (search.toLowerCase()){
+            case "idle":
+                return findIdlePeople();
+            case"all":
+                return findAll();
+            default: throw new IllegalArgumentException("Invalid search Param: Valid Params are, all and idle.");
+        }
     }
 
     @Override
     public ResponseEntity<Collection<PersonDto>> findAll() {
-        return null;
+        return ResponseEntity.ok(personService.findAll());
     }
 
     @Override
-    public ResponseEntity<PersonDto> findById(Integer personId) {
-        return null;
+    @GetMapping("/todo/api/v1/people/{id}")
+    public ResponseEntity<PersonDto> findById(@PathVariable("id") Integer personId) {
+        return ResponseEntity.ok(personService.findById(personId));
     }
 
     @Override
     public ResponseEntity<Collection<PersonDto>> findIdlePeople() {
-        return null;
+        return ResponseEntity.ok(personService.findIdlePeople());
     }
 
     @Override
-    public ResponseEntity<Collection<TodoItemDto>> getTodoItems(Integer personId) {
-        return null;
+    @GetMapping("/todo/api/v1/people/{id}/todos")
+    public ResponseEntity<Collection<TodoItemDto>> getTodoItems(@PathVariable("id") Integer personId) {
+        return ResponseEntity.ok(todoItemService.findAllByPersonId(personId));
     }
 
     @Override
-    public ResponseEntity<PersonDto> removeTodoItem(Integer personId, Integer todoId) {
-        return null;
+    @GetMapping("/todo/api/v1/people/{id}/remove")
+    public ResponseEntity<PersonDto> removeTodoItem(@PathVariable("id") Integer personId,
+                                                    @RequestParam("todoId") Integer todoId) {
+        return ResponseEntity.ok(personService.removeTodoItem(personId, todoId));
     }
 
     @Override
-    public ResponseEntity<PersonDto> update(Integer personId, PersonFormDto form) {
-        return null;
+    @PutMapping("/todo/api/v1/people/{id}")
+    public ResponseEntity<PersonDto> update(@PathVariable("id") Integer personId,
+                                            @RequestBody PersonFormDto form) {
+        return ResponseEntity.ok(personService.update(personId, form));
     }
 }

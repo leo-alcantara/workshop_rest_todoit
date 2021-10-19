@@ -31,18 +31,21 @@ public class PersonServiceImpl implements PersonService {
 
 
     @Override
+    @Transactional
     public PersonDto create(PersonFormDto form) {
         Person saved = personDAO.save(conversionService.toPerson(form));
         return conversionService.toPersonDto(saved);
     }
 
     @Override
+    @Transactional
     public boolean delete(Integer personId) {
         personDAO.deleteById(personId);
         return !personDAO.existsById(personId);
     }
 
     @Override
+    @Transactional
     public List<PersonDto> findAll() {
         List<Person> personList = personDAO.findAll();
         List<PersonDto> personDtoList = new ArrayList<>();
@@ -51,12 +54,14 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    @Transactional
     public PersonDto findById(Integer integer) {
         Optional<Person> foundPerson = personDAO.findById(integer);
         return conversionService.toPersonDto(foundPerson.orElseThrow(() -> new AppResourceNotFoundException("Could not find")));
     }
 
     @Override
+    @Transactional
     public List<PersonDto> findIdlePeople() {
         List<Person> personList = personDAO.findIdlePeople();
         List<PersonDto> personDtoList = new ArrayList<>();
@@ -79,6 +84,7 @@ public class PersonServiceImpl implements PersonService {
     }*/
 
     @Override
+    @Transactional
     public PersonDto addTodoItem(Integer personId, Integer todoItemId) {
         Optional<Person> person = personDAO.findById(personId);
         Optional<TodoItem> todoItem = todoItemDAO.findById(todoItemId);
@@ -101,6 +107,7 @@ public class PersonServiceImpl implements PersonService {
     }*/
 
     @Override
+    @Transactional
     public PersonDto removeTodoItem(Integer personId, Integer todoItemId) {
         Optional<Person> person = personDAO.findById(personId);
         Optional<TodoItem> todoItem = todoItemDAO.findById(todoItemId);
